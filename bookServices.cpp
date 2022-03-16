@@ -61,11 +61,11 @@ class ServiceManager
 };
 map<string, ServiceManager>smTable; // maps smID to sm's rest of details
 
-map<ServiceType, vector<ServiceManager> >serviceTable; /* maps each & every service 
+map<ServiceType, map<string, ServiceManager> >serviceTable; /* maps each & every service 
                                                    to all those Service Manager's
                                                    who provide that service*/   
 
-string earliestAvailableSM(Date date, Time _time); 
+string earliestAvailableSM(map<string, ServiceManager>smTable, Date date, Time _time); 
    /*return smID of Service Manager available 
       earliest on or after given date & time*/
 
@@ -77,7 +77,7 @@ string User::placeOrder(string userID, ServiceType serviceType, Date date, Time 
       Order order;
       order.serviceType=serviceType;
       order.userAddress=userTable[userID].userAddress;
-      order.smID=earliestAvailableSM(date, _time);
+      order.smID=earliestAvailableSM(serviceTable[serviceType], date, _time);
       order.date=smTable[order.smID].availableDate;
       order._time=smTable[order.smID].availableTime;
       order.orderID=order.generateOrderID();
